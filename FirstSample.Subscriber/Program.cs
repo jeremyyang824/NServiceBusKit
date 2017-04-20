@@ -25,7 +25,10 @@ namespace FirstSample.Subscriber
             //替代App.config的<MessageEndpointMappings/>配置
             //endpointConfiguration.UseTransport<MsmqTransport>()
             //    .Routing()
-            //    .RouteToEndpoint(typeof(OrderPlaced).Assembly, "FirstSampe.Messages", "FirstSample.Server");
+            //    .RouteToEndpoint(typeof(OrderPlaced), "FirstSample.Server");
+            endpointConfiguration.UseTransport<MsmqTransport>()
+                .Routing()
+                .RegisterPublisher(typeof(OrderPlaced), "FirstSample.Server");
 
             var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             try
